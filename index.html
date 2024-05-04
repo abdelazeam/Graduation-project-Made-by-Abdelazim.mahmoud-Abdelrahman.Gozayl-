@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="images.png" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PV Cost</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+<style>
+
+body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+    }
+
+    footer {
+        background-color: #1a023f;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+           padding: 20px;
+        border: 2px solid #0d100d;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        font-weight: bold;
+
+    }
+
+    .input-group select, .input-group input {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 2px solid #090808;
+    }
+
+    .logo-left,
+    .logo-right {
+        position: absolute;
+        top: 0px;
+        height: 100px;
+        width: 100px;
+    }
+    .logo-left {
+        left: 10px;
+    }
+    .logo-right {
+        right: 10px;
+        margin-bottom: 30px;
+    }
+    .input-bar:first-of-type {
+        margin-top: 20px; /* Adjust this value as needed */
+    }
+    .input-group {
+        margin-bottom: 15px;
+    }
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #1a023f;
+    }
+    .output {
+        padding: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #f6f0f0;
+        border-radius: 5px;
+        border: 2px solid #060505;
+        margin-bottom: 15px;
+    }
+
+    .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .popup .popuptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: #1a023f;
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -100px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .popup .popuptext::after {
+        content: "";
+        position: relative;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #1a023f transparent transparent transparent;
+    }
+
+    .popup:hover .popuptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .question-mark {
+        color: blue;
+        cursor: pointer;
+    }
+    h1 {
+    margin-top: 60px; /* Add more space above the title */
+    text-align: center; /* Center the title */
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <style>
+        /* Existing styles */
+    
+        h1 {
+            margin-top: 100px; /* Add more space above the title */
+            text-align: center; /* Center the title */
+        }
+    
+        /* Existing styles */
+    </style>
+    <h1><center>Solar Pumping system for Irrigation </center></h1>
+    <img src="MansouraUniversity-logo.jpg" alt="Left Logo" class="logo-left">
+    <img src="images.png" alt="Right Logo" class="logo-right">
+    <div class="input-group">
+        <label for="crop">Crop:</label>
+        <select id="crop" onchange="updateCropValue()">
+            <option value="0">None</option>
+            <option value="250">Date</option>
+            <option value="700">Potato</option>
+            <option value="1500">Tomato</option>
+            <option value="516.285">Wheat</option>
+            <option value="526.155">Barley</option>
+            <option value="558.6">Onion</option>
+            <option value="415.59">Clover</option>
+            <option value="993.5">Watermelon</option>
+            <option value="664.545">Okra</option>
+            <option value="900">Other</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="region">Region:</label>
+        <select id="region" onchange="calculateSum()">
+            <option value="0">Select Region</option>
+            <option value="23.6964">Al-Arish</option>
+            <option value="23.0175">Port-Said</option>
+            <option value="22.4688">Al-Beheira</option>
+            <option value="22.4316">New Mansoura</option>
+            <option value="22.2642">Al-Dabaa</option>
+            <option value="31.4526">Asyut</option>
+            <option value="34.9959">Kom Ombo</option>
+            <option value="28.2906">Siwa</option>
+            <option value="32.1687">Halayeb and Shalatin</option>
+            <option value="28.2906">Other</option>
+        </select>
+    </div>
+    <div class="input-group">
+       
+        <label for="paneltype" class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Panel types:<br>(Amorphous silicon) Cheapest & Efficiency 5-7% <br>(Polycrystalline silicon) Cheaper than mono & Efficiency   15-17% <br>(Monocrystalline silicon) Most expensive & Efficiency 15-22% </span></label>
+        <select id="paneltype" onchange="calculateSum()">
+            <option value="120">Select Panel type</option>
+            <option value="50">Amorphous silicon</option>
+            <option value="170">Polycrystalline silicon</option>
+            <option value="300">Monocrystalline silicon</option>
+            
+        </select>
+    </div>
+    <div class="input-group" id="latitudeInput" style="display: none;">
+        <label for="latitude">Latitude:</label>
+        <input type="number" id="latitude" placeholder="Enter latitude value" min="0">
+    </div>
+    <!-- Removed longitude input -->
+    <div class="input-group">
+        <label for="landArea">Land Area in ARC:</label>
+        <input type="number" id="landArea" placeholder="Enter land area value" min="0">
+    </div>
+    <div class="input-group">
+        <label for="irrigation" class="popup">Irrigation <span class="question-mark">?</span>: <span class="popuptext">Hints for irrigation types:<br>Drip (>24h)<br>Sprinkler (>8h)<br>Regulated (>3h)</span></label>
+        <select id="irrigation" onchange="calculateSum()">
+            <option value="0">None</option>
+            <option value="86400">Drip (>24h)</option>
+            <option value="28800">Sprinkler (>8h)</option>
+            <option value="10800">Regulated (>3h)</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="waterDepth">Depth of Water in m:</label>
+        <input type="number" id="waterDepth" placeholder="Enter water depth value" min="0">
+    </div>
+    <div class="input-group">
+        <label for="inverter" class="popup">Inverter <span class="question-mark">?</span>: <span class="popuptext">string: life time 10 year & don't accept adding unit<br>micro: life time 25 year &  accept adding unit</span></label>
+        <select id="inverter" onchange="calculateSum()">
+           
+            <option value="600">micro </option>
+            <option value="180">string </option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="workers">Workers:</label>
+        <input type="number" id="workers" placeholder="Enter workers value" min="0">
+    </div>
+    <button onclick="generateExcel()">Generate Excel</button>
+
+    <div class="output" id="outputPower">Total Power: 0 kWh/month</div>
+    <div class="output" id="outputPanels">Panels: 0</div>
+    <div class="output" id="outputCost">Cost: 0 $</div>
+    <div class="output" id="projectedArea">Projected Area: 0 m&sup2</div>
+     <div class="output" id="battery">Battery:0</div>
+     <div class="output" id="pumpHP">PumpHP:0 hp </div>
+     <div class="output" id="flowrate">Flow rate:0 m&sup3/hr </div> 
+</div>
+<footer>
+    <p>&copy; Solar Pumping system for Irrigation </p>
+    <p>&copy; MPE-Faculty of Engineering, Mansoura University </p>
+    <p>&copy; Under Supervision of Dr.Mohamed Tawfik </p>
+    <p>&copy;  Team Name:Green life 🌄</p>
+    <p>&copy; For 2024/2023 Graduation project</p>
+</footer>
+<script>
+    function calculateSum() {
+        var cropValue = parseInt(document.getElementById('crop').value) || 0;
+        var landArea = parseInt(document.getElementById('landArea').value) || 0;
+        var irrigationValue = parseInt(document.getElementById('irrigation').value) || 0;
+        var waterDepth = parseInt(document.getElementById('waterDepth').value) || 0;
+        var workers = parseInt(document.getElementById('workers').value) || 0;
+        var region = parseFloat(document.getElementById('region').value) || 45;
+        var paneltype = parseFloat(document.getElementById('paneltype').value) || 0;
+
+        var sun = region;
+        var latitude = parseInt(document.getElementById('latitude').value) ; // Parse latitude input as integer
+        var inverter=parseFloat(document.getElementById('inverter').value) || 300;
+        var nhour=irrigationValue/3600
+       // Solar radiation calculation based on latitude
+       var sinAltitude = Math.cos(latitude * 0.0174);
+        var Hbn = 1150.662 * Math.exp(-0.177 / sinAltitude);
+        var Hb = Hbn * sinAltitude;
+        var Hd = 0.092 * Hbn * ((1 + Math.cos(latitude * 0.0174)) / 2);
+        var Hr = ((1 - Math.cos(latitude * 0.0174)) / 2) * 0.2 * (Hb + Hd);
+        var Ht = (Hbn + Hd + Hr)*12  / 1000;
+
+        // Other calculations remain unchanged
+
+        // var projectedArea = Ht* 1.7; // Adjust the projected area calculation based on your requirements
+        var regionSelect = document.getElementById('region');
+        var selectedRegion = regionSelect.options[regionSelect.selectedIndex].text;
+
+        var inverterSelect = document.getElementById('inverter');
+        var selectedinverter = inverterSelect.options[inverterSelect.selectedIndex].text;
+
+        var panels =0;
+        var cost =0;
+        var projectedArea =0;
+        var flowrate =0;
+        var PumpHP =0;
+
+
+
+        if (irrigationValue === 0) {
+            var totalPower = workers * 70;
+        } else if (irrigationValue === 86400) {
+            irrigationValue=irrigationValue*4;
+            cropValue=cropValue*1;
+
+            var flowrate = (cropValue / irrigationValue ) * landArea;
+            var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
+            var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
+            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+        }
+     else if (irrigationValue === 28800) {
+        irrigationValue=irrigationValue*4;
+        cropValue=cropValue*1.4;
+
+            var flowrate = (cropValue / irrigationValue ) * landArea;
+            var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
+            var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
+            var totalPower = parseInt(pump_kwat_hour + workers*70 );
+        }
+    else   {
+        irrigationValue=irrigationValue*4;
+        cropValue=cropValue*1.8;
+
+            var flowrate = (cropValue / irrigationValue) * landArea;
+            var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
+            var pump_kwat_hour = pumpPower*(irrigationValue/3600) ;
+            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+        }
+var pumpHP=pumpPower/.745 ;
+
+
+        if (selectedRegion === "Other") {
+            document.getElementById('latitudeInput').style.display = 'block';
+            
+            var panels = parseInt(totalPower / (Ht *1.7* 3));
+           
+
+        } else {
+            document.getElementById('latitudeInput').style.display = 'none';
+           
+            var panels = parseInt(totalPower / (sun * 3));
+        }
+
+       
+        var battery = parseInt(totalPower / 150);
+        // var inverter_cost = parseInt(battery / 2) * 80;
+        var batteryCost = parseInt(battery * 400);
+        if (paneltype===50){
+            panels = parseInt(panels/1.05)
+        }
+        else if (paneltype===120){
+            panels = parseInt(panels/1.05)
+            }
+        else if (paneltype===170){
+            panels = parseInt(panels/1.15)
+
+        }
+        else if (paneltype===300){
+            panels = parseInt(panels/1.25)
+
+        }
+        var instlationCost = parseInt(panels * 100);
+
+        var projectedArea = panels * 1.7;
+
+        if (selectedinverter === "micro")
+        {
+            var inverter_cost=panels*inverter;
+        }else {
+            var inverter_cost=totalPower*inverter/30;
+        }
+
+        var cost = parseInt((panels * paneltype ) + batteryCost + inverter_cost + instlationCost );
+
+        document.getElementById('outputPower').textContent = "Total Power: " + parseInt(totalPower) + " kWh/month  ";
+        document.getElementById('outputCost').textContent = "Cost:  " + parseInt(cost)+" $";
+        document.getElementById('outputPanels').textContent = "Panels: " + parseInt(panels)+" ⟾⟾(Each panel 900W)";
+        document.getElementById('projectedArea').textContent = "Projected Area: " + parseInt(projectedArea) + " ㎡ ";
+
+         document.getElementById('battery').textContent = "Battery: " + parseInt(battery)+"  ⟾⟾(Each Battery 5kW)    ";
+         document.getElementById('pumpHP').textContent = "PumpHP: " + parseInt(pumpHP)  +" hp " ; 
+         document.getElementById('flowrate').textContent = "Flow rate: " + parseInt(flowrate*3600)  +" ㎥/hr "; 
+
+        
+    }
+
+    function updateCropValue() {
+        calculateSum();
+    }
+
+    function showHint() {
+        alert("Hints for irrigation types:\nDrip (>24h)\nSprinkler (>8h)\nRegulated (>3h)");
+    }
+   
+
+
+    document.getElementById('region').addEventListener('change', calculateSum);
+    document.getElementById('landArea').addEventListener('input', calculateSum);
+    document.getElementById('waterDepth').addEventListener('input', calculateSum);
+    document.getElementById('workers').addEventListener('input', calculateSum);
+    document.getElementById('latitude').addEventListener('input', calculateSum);
+    document.getElementById('inverter').addEventListener('input', calculateSum);
+    function generateExcel() {
+    const wb = XLSX.utils.book_new();
+    const wsData = [
+        ['Scenario', 'Panel Type', 'Inverter Type','Irrigation Type ','Total Power (kWh/month)', 'Panels', 'Cost ($)', 'Projected Area (㎡)', 'Battery', 'PumpHP (hp)', 'Flow rate (m³/hr)']
+    ];
+
+    const panelTypeSelect = document.getElementById('paneltype');
+
+    // Iterate over each panel type option
+    for (let i = 1; i < panelTypeSelect.options.length; i++) {
+        panelTypeSelect.selectedIndex = i; // Select the current panel type option
+
+        // Iterate over each inverter option
+        const inverterSelect = document.getElementById('inverter');
+        for (let j = 0; j < inverterSelect.options.length; j++) {
+            inverterSelect.selectedIndex = j; // Select the current inverter option
+
+            // Iterate over each irrigation option
+            const irrigationSelect = document.getElementById('irrigation');
+            for (let k = 1; k < irrigationSelect.options.length; k++) {
+                irrigationSelect.selectedIndex = k; // Select the current irrigation option
+
+                calculateSum(); // Calculate output values for the current scenario
+
+                const panelType = panelTypeSelect.options[i].text;
+                const inverter = inverterSelect.options[j].text;
+                const irrigation = irrigationSelect.options[k].text;
+                const totalPower = document.getElementById('outputPower').textContent.split(':')[1].trim();
+                const panels = document.getElementById('outputPanels').textContent.split(':')[1].trim();
+                const cost = document.getElementById('outputCost').textContent.split(':')[1].trim();
+                const projectedArea = document.getElementById('projectedArea').textContent.split(':')[1].trim();
+                const battery = document.getElementById('battery').textContent.split(':')[1].trim();
+                const pumpHP = document.getElementById('pumpHP').textContent.split(':')[1].trim();
+                const flowRate = document.getElementById('flowrate').textContent.split(':')[1].trim();
+
+                // Add output values for the current scenario to the worksheet data
+                wsData.push([i, panelType, inverter, irrigation, totalPower, panels, cost, projectedArea, battery, pumpHP, flowRate]);
+            }
+        }
+    }
+
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    // Set column widths for better spacing
+    const columnWidths = [
+        { wch: 2 }, // Scenario
+        { wch: 20 }, // Panel Type
+        { wch: 10 }, // inverter
+        { wch: 20 }, // irrgation 
+        { wch: 30 }, // Total Power (kWh/month)
+        { wch: 25 }, // Panels
+        { wch: 15 }, // Cost ($)
+        { wch: 15 }, // Projected Area (㎡)
+        { wch: 25 }, // Battery
+        { wch: 15 }, // PumpHP (hp)
+        { wch: 15 }  // Flow rate (m³/hr)
+];
+
+    // Set column widths
+    ws['!cols'] = columnWidths;
+
+    XLSX.utils.book_append_sheet(wb, ws, 'All Scenarios Output');
+
+    // Save the Excel file
+    XLSX.writeFile(wb, 'all_scenarios_output.xlsx');
+}
+
+</script>
+</body>
+</html>
