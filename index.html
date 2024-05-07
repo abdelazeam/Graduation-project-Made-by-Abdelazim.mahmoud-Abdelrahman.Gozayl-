@@ -165,6 +165,15 @@ body {
         </select>
     </div>
     <div class="input-group">
+        <label for="Main_three_region">Main_three_region:</label>
+        <select id="Main_three_region" onchange="calculateSum()">
+            <option value="1">Delta</option>
+            <option value="1.05">Middle-Egypt</option>
+            <option value="1.2">Upper-Egypt</option>
+      
+        </select>
+    </div>
+    <div class="input-group">
         <label for="region">Region:</label>
         <select id="region" onchange="calculateSum()">
             <option value="0">Select Region</option>
@@ -180,6 +189,14 @@ body {
             <option value="28.2906">Other</option>
         </select>
     </div>
+    <div class="input-group" id="latitudeInput" style="display: none;">
+        <label for="latitude">Latitude:</label>
+        <input type="number" id="latitude" placeholder="Enter latitude value" min="0">
+    </div>
+   <div class="input-group" id="longitudeInput" style="display: none;">
+        <label for="longitude">Longitude:</label>
+        <input type="number" id="longitude" placeholder="Enter longitude value" min="0">
+    </div>
     <div class="input-group">
        
         <label for="paneltype" class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Panel types:<br>(Amorphous silicon) Cheapest & Efficiency 5-7% <br>(Polycrystalline silicon) Cheaper than mono & Efficiency   15-17% <br>(Monocrystalline silicon) Most expensive & Efficiency 15-22% </span></label>
@@ -191,11 +208,7 @@ body {
             
         </select>
     </div>
-    <div class="input-group" id="latitudeInput" style="display: none;">
-        <label for="latitude">Latitude:</label>
-        <input type="number" id="latitude" placeholder="Enter latitude value" min="0">
-    </div>
-    <!-- Removed longitude input -->
+   
     <div class="input-group">
         <label for="landArea">Land Area in ARC:</label>
         <input type="number" id="landArea" placeholder="Enter land area value" min="0">
@@ -251,9 +264,11 @@ body {
         var workers = parseInt(document.getElementById('workers').value) || 0;
         var region = parseFloat(document.getElementById('region').value) || 45;
         var paneltype = parseFloat(document.getElementById('paneltype').value) || 0;
+         var Main_three_region = parseFloat(document.getElementById('Main_three_region').value) || 1;
 
         var sun = region;
         var latitude = parseInt(document.getElementById('latitude').value) ; // Parse latitude input as integer
+        var longitude = parseInt(document.getElementById('longitude').value) ; // Parse latitude input as integer
         var inverter=parseFloat(document.getElementById('inverter').value) || 300;
         var nhour=irrigationValue/3600
        // Solar radiation calculation based on latitude
@@ -278,8 +293,7 @@ body {
         var projectedArea =0;
         var flowrate =0;
         var PumpHP =0;
-
-
+       var cropValue= Main_three_region*cropValue
 
         if (irrigationValue === 0) {
             var totalPower = workers * 70;
@@ -315,13 +329,14 @@ var pumpHP=pumpPower/.745 ;
 
         if (selectedRegion === "Other") {
             document.getElementById('latitudeInput').style.display = 'block';
-            
+            document.getElementById('longitudeInput').style.display = 'block';
+
             var panels = parseInt(totalPower / (Ht *1.7* 3));
            
 
         } else {
             document.getElementById('latitudeInput').style.display = 'none';
-           
+            document.getElementById('longitudeInput').style.display = 'none';
             var panels = parseInt(totalPower / (sun * 3));
         }
 
@@ -376,19 +391,23 @@ var pumpHP=pumpPower/.745 ;
         alert("Hints for irrigation types:\nDrip (>24h)\nSprinkler (>8h)\nRegulated (>3h)");
     }
    
-
+    document.getElementById('Main_three_region').addEventListener('change', calculateSum);
 
     document.getElementById('region').addEventListener('change', calculateSum);
     document.getElementById('landArea').addEventListener('input', calculateSum);
     document.getElementById('waterDepth').addEventListener('input', calculateSum);
     document.getElementById('workers').addEventListener('input', calculateSum);
     document.getElementById('latitude').addEventListener('input', calculateSum);
+    document.getElementById('longitude').addEventListener('input', calculateSum);
     document.getElementById('inverter').addEventListener('input', calculateSum);
     function generateExcel() {
     const wb = XLSX.utils.book_new();
     const wsData = [
-        ['Scenario', 'Panel Type', 'Inverter Type','Irrigation Type ','Total Power (kWh/month)', 'Panels', 'Cost ($)', 'Projected Area (㎡)', 'Battery', 'PumpHP (hp)', 'Flow rate (m³/hr)']
+        ['Solar Pumping System for Irrigation'] // Header row
     ];
+
+    const headerRow = ['Scenario', 'Panel Type', 'Inverter Type', 'Irrigation Type', 'Total Power (kWh/month)', 'Panels', 'Cost ($)', 'Projected Area (㎡)', 'Battery', 'PumpHP (hp)', 'Flow rate (m³/hr)'];
+    wsData.push(headerRow);
 
     const panelTypeSelect = document.getElementById('paneltype');
 
@@ -427,23 +446,38 @@ var pumpHP=pumpPower/.745 ;
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
+    // Set bold font for header row and change text color
+    ws['!rows'] = [{ hpt: 20, hpx: 20 }]; // Set row height
+    const headerStyle = { font: { bold: true, sz: 20, color: { rgb: "FFFF0000" } } }; // Set bold font style for header and change text color to red
+    for (let col = 0; col < headerRow.length; col++) {
+        const cellRef = XLSX.utils.encode_cell({ r: 1, c: col }); // Get cell reference for header row
+        ws[cellRef].s = headerStyle; // Apply bold font style to header row
+    }
+
     // Set column widths for better spacing
     const columnWidths = [
-        { wch: 2 }, // Scenario
+        { wch: 10 }, // Scenario
         { wch: 20 }, // Panel Type
-        { wch: 10 }, // inverter
-        { wch: 20 }, // irrgation 
+        { wch: 20 }, // Inverter
+        { wch: 20 }, // Irrigation
         { wch: 30 }, // Total Power (kWh/month)
         { wch: 25 }, // Panels
         { wch: 15 }, // Cost ($)
         { wch: 15 }, // Projected Area (㎡)
         { wch: 25 }, // Battery
         { wch: 15 }, // PumpHP (hp)
-        { wch: 15 }  // Flow rate (m³/hr)
-];
+        { wch: 15 } // Flow rate (m³/hr)
+    ];
 
     // Set column widths
     ws['!cols'] = columnWidths;
+
+    // Change text color for specific cells (e.g., Total Power column)
+    const textColorStyle = { font: { color: { rgb: "FF0000FF" } } }; // Change text color to blue for specific cells
+    for (let row = 2; row < wsData.length; row++) {
+        const cellRef = XLSX.utils.encode_cell({ r: row, c: 4 }); // Get cell reference for Total Power column
+        ws[cellRef].s = textColorStyle; // Apply font style to change text color
+    }
 
     XLSX.utils.book_append_sheet(wb, ws, 'All Scenarios Output');
 
