@@ -331,13 +331,13 @@ var pumpHP=pumpPower/.745 ;
             document.getElementById('latitudeInput').style.display = 'block';
             document.getElementById('longitudeInput').style.display = 'block';
 
-            var panels = parseInt(totalPower / (Ht *1.7* 3));
+            var panels = parseInt(totalPower / (Ht *1.*1.8 * 3));
            
 
         } else {
             document.getElementById('latitudeInput').style.display = 'none';
             document.getElementById('longitudeInput').style.display = 'none';
-            var panels = parseInt(totalPower / (sun * 3));
+            var panels = parseInt(totalPower / (sun *1* 3));
         }
 
        
@@ -360,7 +360,7 @@ var pumpHP=pumpPower/.745 ;
         }
         var instlationCost = parseInt(panels * 100);
 
-        var projectedArea = panels * 1.7;
+        var projectedArea = panels *4*.8 ;
 
         if (selectedinverter === "micro")
         {
@@ -443,6 +443,7 @@ var pumpHP=pumpPower/.745 ;
             }
         }
     }
+   
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
@@ -484,6 +485,7 @@ var pumpHP=pumpPower/.745 ;
     // Save the Excel file
     XLSX.writeFile(wb, 'all_scenarios_output.xlsx');
 }
+
 
 </script>
 </body>
