@@ -358,15 +358,15 @@ var pumpHP=pumpPower/.745 ;
             panels = parseInt(panels/1.25)
 
         }
-        var instlationCost = parseInt(panels * 150);
+        var instlationCost = parseInt(panels * 180);
 
         var projectedArea = panels *4*.8 ;
 
         if (selectedinverter === "micro")
         {
-            var inverter_cost=panels*inverter;
+            var inverter_cost=panels*inverter*1.1;
         }else {
-            var inverter_cost=totalPower*inverter/30;
+            var inverter_cost=totalPower*inverter*1.1/30;
         }
 
         var cost = parseInt(((panels * paneltype ) + batteryCost + inverter_cost + instlationCost ));
