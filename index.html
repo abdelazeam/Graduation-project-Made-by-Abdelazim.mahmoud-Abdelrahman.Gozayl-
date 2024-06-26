@@ -358,18 +358,18 @@ var pumpHP=pumpPower/.745 ;
             panels = parseInt(panels/1.25)
 
         }
-        var instlationCost = parseInt(panels * 200);
+        var instlationCost = parseInt(panels * 150);
 
         var projectedArea = panels *4*.8 ;
 
         if (selectedinverter === "micro")
         {
-            var inverter_cost=panels*inverter*1.2;
+            var inverter_cost=panels*inverter;
         }else {
-            var inverter_cost=totalPower*1.2*inverter/30;
+            var inverter_cost=totalPower*inverter/30;
         }
 
-        var cost = parseInt(((panels * paneltype ) + batteryCost + inverter_cost + instlationCost )*1.1);
+        var cost = parseInt(((panels * paneltype ) + batteryCost + inverter_cost + instlationCost ));
 
         document.getElementById('outputPower').textContent = "Total Power: " + parseInt(totalPower) + " kWh/month  ";
         document.getElementById('outputCost').textContent = "Cost:  " + parseInt(cost)+" $";
