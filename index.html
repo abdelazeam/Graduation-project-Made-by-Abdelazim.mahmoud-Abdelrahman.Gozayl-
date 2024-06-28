@@ -152,15 +152,19 @@ body {
         <label for="crop">Crop:</label>
         <select id="crop" onchange="updateCropValue()">
             <option value="0">None</option>
-            <option value="250">Date</option>
-            <option value="700">Potato</option>
-            <option value="1500">Tomato</option>
-            <option value="516.285">Wheat</option>
-            <option value="526.155">Barley</option>
-            <option value="558.6">Onion</option>
-            <option value="415.59">Clover</option>
-            <option value="993.5">Watermelon</option>
-            <option value="664.545">Okra</option>
+            <option value="230">Date</option>
+            <option value="250">Potato</option>
+            <option value="300">strawberry</option> 
+           <option value="525">Sesame</option>     
+            <option value="600">Tomato</option>
+            <option value="335">Wheat</option>
+            <option value="280">Barley</option>
+            <option value="515">Onion</option>
+            <option value="460">Clover</option>
+            <option value="465">Garlic</option>
+            <option value="470">Corn</option>     
+           <option value="380">SunFlower</option>     
+           <option value="380">Vegetables</option>     
             <option value="900">Other</option>
         </select>
     </div>
@@ -298,7 +302,7 @@ body {
         if (irrigationValue === 0) {
             var totalPower = workers * 70;
         } else if (irrigationValue === 86400) {
-            irrigationValue=irrigationValue*4;
+            irrigationValue=2*30*3600;
             cropValue=cropValue*1;
 
             var flowrate = (cropValue / irrigationValue ) * landArea;
@@ -307,7 +311,7 @@ body {
             var totalPower = parseInt(pump_kwat_hour + workers * 70);
         }
      else if (irrigationValue === 28800) {
-        irrigationValue=irrigationValue*4;
+        irrigationValue=12*4*3600;
         cropValue=cropValue*1.4;
 
             var flowrate = (cropValue / irrigationValue ) * landArea;
@@ -316,7 +320,7 @@ body {
             var totalPower = parseInt(pump_kwat_hour + workers*70 );
         }
     else   {
-        irrigationValue=irrigationValue*4;
+        irrigationValue=8*3600*4;
         cropValue=cropValue*1.8;
 
             var flowrate = (cropValue / irrigationValue) * landArea;
