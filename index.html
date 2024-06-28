@@ -152,16 +152,16 @@ body {
         <label for="crop">Crop:</label>
         <select id="crop" onchange="updateCropValue()">
             <option value="0">None</option>
-            <option value="230">Date</option>
-            <option value="250">Potato</option>
-            <option value="300">strawberry</option> 
+            <option value="350">Date</option>
+            <option value="495">Potato</option>
+            <option value="450">strawberry</option> 
            <option value="525">Sesame</option>     
             <option value="600">Tomato</option>
-            <option value="335">Wheat</option>
-            <option value="280">Barley</option>
-            <option value="515">Onion</option>
+            <option value="480">Wheat</option>
+            <option value="470">Barley</option>
+            <option value="560">Onion</option>
             <option value="460">Clover</option>
-            <option value="465">Garlic</option>
+            <option value="485">Garlic</option>
             <option value="470">Corn</option>     
            <option value="380">SunFlower</option>     
            <option value="380">Vegetables</option>     
@@ -205,8 +205,8 @@ body {
        
         <label for="paneltype" class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Panel types:<br>(Amorphous silicon) Cheapest & Efficiency 5-7% <br>(Polycrystalline silicon) Cheaper than mono & Efficiency   15-17% <br>(Monocrystalline silicon) Most expensive & Efficiency 15-22% </span></label>
         <select id="paneltype" onchange="calculateSum()">
-            <option value="120">Select Panel type</option>
-            <option value="110">Amorphous silicon</option>
+            <option value="140">Select Panel type</option>
+            <option value="150">Amorphous silicon</option>
             <option value="270">Polycrystalline silicon</option>
             <option value="500">Monocrystalline silicon</option>
             
@@ -234,8 +234,8 @@ body {
         <label for="inverter" class="popup">Inverter <span class="question-mark">?</span>: <span class="popuptext">string: life time 10 year & don't accept adding unit<br>micro: life time 25 year &  accept adding unit</span></label>
         <select id="inverter" onchange="calculateSum()">
            
-            <option value="600">micro </option>
-            <option value="180">string </option>
+            <option value="500">micro </option>
+            <option value="250">string </option>
         </select>
     </div>
     <div class="input-group">
@@ -348,10 +348,10 @@ var pumpHP=pumpPower/.745 ;
         var battery = parseInt(totalPower / 150);
         // var inverter_cost = parseInt(battery / 2) * 80;
         var batteryCost = parseInt(battery * 450);
-        if (paneltype===110){
+        if (paneltype===140){
             panels = parseInt(panels/1.05)
         }
-        else if (paneltype===120){
+        else if (paneltype===150){
             panels = parseInt(panels/1.05)
             }
         else if (paneltype===270){
@@ -370,7 +370,7 @@ var pumpHP=pumpPower/.745 ;
         {
             var inverter_cost=panels*inverter*1.1;
         }else {
-            var inverter_cost=totalPower*inverter*1.1/30;
+            var inverter_cost=panels*inverter*1.1;
         }
 
         var cost = parseInt(((panels * paneltype ) + batteryCost + inverter_cost + instlationCost ));
