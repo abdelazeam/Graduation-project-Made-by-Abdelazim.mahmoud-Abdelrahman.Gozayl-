@@ -207,8 +207,8 @@ body {
         <select id="paneltype" onchange="calculateSum()">
             <option value="140">Select Panel type</option>
             <option value="150">Amorphous silicon</option>
-            <option value="270">Polycrystalline silicon</option>
-            <option value="500">Monocrystalline silicon</option>
+            <option value="350">Polycrystalline silicon</option>
+            <option value="650">Monocrystalline silicon</option>
             
         </select>
     </div>
@@ -354,11 +354,11 @@ var pumpHP=pumpPower/.745 ;
         else if (paneltype===150){
             panels = parseInt(panels/1.05)
             }
-        else if (paneltype===270){
+        else if (paneltype===350){
             panels = parseInt(panels/1.15)
 
         }
-        else if (paneltype===500){
+        else if (paneltype===650){
             panels = parseInt(panels/1.25)
 
         }
