@@ -344,15 +344,12 @@ var pumpHP=pumpPower/.745 ;
             var panels = parseInt(totalPower / (sun *1* 2.5));
         }
 
-       if ((totalpower/150)>(pumpPower/5)){
-        var battery = parseInt(totalPower / 150);
-                    var  battery = Math.ceil( battery);
-       }
-            else{
-          var battery = parseInt(pumpPower/ 5);
-                    var  battery = Math.ceil( battery);
-                    
-            }
+var battery;
+      if ((totalPower / 150) > (pumpPower / 5)) {
+    battery = Math.ceil(totalPower / 150);
+} else {
+    battery = Math.ceil(pumpPower / 5);
+}
         // var inverter_cost = parseInt(battery / 2) * 80;
         var batteryCost = parseInt(battery * 450);
         if (paneltype===140){
