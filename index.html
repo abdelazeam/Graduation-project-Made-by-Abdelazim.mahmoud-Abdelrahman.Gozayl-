@@ -346,9 +346,13 @@ var pumpHP=pumpPower/.745 ;
 
 var battery;
       if ((totalPower / 150) > (pumpPower / 5)) {
-    battery = Math.ceil(totalPower / 150);
+    battery = totalPower / 150;
+            battery = battery+1;
+      
 } else {
-    battery = Math.ceil(pumpPower / 5);
+    battery = pumpPower / 5
+   battery = battery+1;
+          
 }
         // var inverter_cost = parseInt(battery / 2) * 80;
         var batteryCost = parseInt(battery * 450);
@@ -366,8 +370,7 @@ var battery;
             panels = parseInt(panels/1.25)
 
         }
-        var panels = Math.ceil(panels);
-
+        var panels = panels+1
         var instlationCost = parseInt(panels * 180);
 
         var projectedArea = panels *4*.8 ;
