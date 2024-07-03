@@ -305,7 +305,7 @@ body {
            }
             else if ( workers === 2) {
 
-            var workerpower = workers * 110;
+            var workerpower = workers * 100;
            }     
                  else {
 
@@ -317,7 +317,7 @@ body {
 
             var totalPower = workerpower ;
            }
-        } 
+        
         else if (irrigationValue === 86400) {
             irrigationValue=2*30*3600;
             cropValue=cropValue*1;
@@ -405,11 +405,12 @@ var pumpHP=pumpPower/.745 ;
          document.getElementById('flowrate').textContent = "Flow rate: " + parseInt(flowrate*3600)  +" ㎥/hr "; 
 
         
-    }
+    
 
     function updateCropValue() {
         calculateSum();
     }
+} 
 
     function showHint() {
         alert("Hints for irrigation types:\nDrip (>24h)\nSprinkler (>8h)\nRegulated (>3h)");
@@ -424,6 +425,7 @@ var pumpHP=pumpPower/.745 ;
     document.getElementById('latitude').addEventListener('input', calculateSum);
     document.getElementById('longitude').addEventListener('input', calculateSum);
     document.getElementById('inverter').addEventListener('input', calculateSum);
+
     function generateExcel() {
     const wb = XLSX.utils.book_new();
     const wsData = [
