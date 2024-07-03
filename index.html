@@ -382,6 +382,10 @@ var pumpHP=pumpPower/.745 ;
 
         }
         var panels = panels+1
+            if (totalPower===0){
+           var panels = 0
+            }
+        
         var instlationCost = parseInt(panels * 180);
 
         var projectedArea = panels *4*.8 ;
