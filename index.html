@@ -298,17 +298,35 @@ body {
         var flowrate =0;
         var PumpHP =0;
        var cropValue= Main_three_region*cropValue
+            var  workerpower =0;
+            
+            if ( workers === 1) {
+
+            var workerpower = workers * 150;
+           }
+            else if ( workers === 2) {
+
+            var workerpower = workers * 110;
+           }     
+                 else {
+
+            var workerpower = workers * 80;
+           }
 
         if (irrigationValue === 0) {
-            var totalPower = workers * 70;
-        } else if (irrigationValue === 86400) {
+        
+
+            var totalPower = workerpower ;
+           }
+        } 
+        else if (irrigationValue === 86400) {
             irrigationValue=2*30*3600;
             cropValue=cropValue*1;
 
             var flowrate = (cropValue / irrigationValue ) * landArea;
             var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
             var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+            var totalPower = parseInt(pump_kwat_hour + workerpower);
         }
      else if (irrigationValue === 28800) {
         irrigationValue=12*4*3600;
@@ -317,7 +335,7 @@ body {
             var flowrate = (cropValue / irrigationValue ) * landArea;
             var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
             var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers*70 );
+            var totalPower = parseInt(pump_kwat_hour + workerpower );
         }
     else   {
         irrigationValue=8*3600*4;
@@ -326,7 +344,7 @@ body {
             var flowrate = (cropValue / irrigationValue) * landArea;
             var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
             var pump_kwat_hour = pumpPower*(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+            var totalPower = parseInt(pump_kwat_hour + workerpower);
         }
 var pumpHP=pumpPower/.745 ;
 
