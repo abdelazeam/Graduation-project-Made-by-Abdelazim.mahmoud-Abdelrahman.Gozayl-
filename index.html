@@ -221,13 +221,13 @@ body {
         <label for="irrigation" class="popup">Irrigation <span class="question-mark">?</span>: <span class="popuptext">Hints for irrigation types:<br>Drip (>24h)<br>Sprinkler (>8h)<br>Regulated (>3h)</span></label>
         <select id="irrigation" onchange="calculateSum()">
             <option value="0">None</option>
-            <option value="86400">Drip (>24h)</option>
-            <option value="28800">Sprinkler (>8h)</option>
-            <option value="10800">Regulated (>3h)</option>
+            <option value="86400">Drip </option>
+            <option value="28800">Sprinkler</option>
+            <option value="10800">Regulated</option>
         </select>
     </div>
     <div class="input-group">
-        <label for="waterDepth">Depth of Water in m:</label>
+        <label for="waterDepth">Depth of Water in m : Add the irrigation system Head to Well Head </label>
         <input type="number" id="waterDepth" placeholder="Enter water depth value" min="0">
     </div>
     <div class="input-group">
