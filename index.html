@@ -8,127 +8,201 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 
 <style>
-
 body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #ffffff;
-    }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
 
-    footer {
-        background-color: #1a023f;
-        color: #fff;
-        padding: 20px 0;
-        text-align: center;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-        font-size: 16px;
-        font-weight: bold;
-    }
+footer {
+    background-color: #1a023f;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+}
 
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-           padding: 20px;
-        border: 2px solid #0d100d;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        font-weight: bold;
 
-    }
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 3px solid #040106;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-weight: bold;
+    background-color: #ffffff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
 
-    .input-group select, .input-group input {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 5px;
-        border: 2px solid #090808;
-    }
+.container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    background-color: #f3f3f3;
 
-    .logo-left,
-    .logo-right {
-        position: absolute;
-        top: 0px;
-        height: 100px;
-        width: 100px;
-    }
-    .logo-left {
-        left: 10px;
-    }
-    .logo-right {
-        right: 10px;
-        margin-bottom: 30px;
-    }
-    .input-bar:first-of-type {
-        margin-top: 20px; /* Adjust this value as needed */
-    }
-    .input-group {
-        margin-bottom: 15px;
-    }
-    .input-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: #1a023f;
-    }
-    .output {
-        padding: 10px;
-        font-size: 15px;
-        font-weight: bold;
-        background-color: #f6f0f0;
-        border-radius: 5px;
-        border: 2px solid #060505;
-        margin-bottom: 15px;
-    }
+}
 
-    .popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
+.input-group select, .input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 2px solid #090808;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
 
-    .popup .popuptext {
-        visibility: hidden;
-        width: 200px;
-        background-color: #1a023f;
-        color: white;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px;
-        position: absolute;
-        z-index: 1;
-        bottom: 150%;
-        left: 50%;
-        margin-left: -100px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
+.input-group select:focus, .input-group input:focus {
+    border-color: #1a023f;
+    box-shadow: 0 0 10px rgba(26, 2, 63, 0.5);
+    transform: scale(1.01);
+    background-color: #e9f0f0;
 
-    .popup .popuptext::after {
-        content: "";
-        position: relative;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #1a023f transparent transparent transparent;
-    }
 
-    .popup:hover .popuptext {
-        visibility: visible;
-        opacity: 1;
-    }
+}
 
-    .question-mark {
-        color: blue;
-        cursor: pointer;
-    }
-    h1 {
-    margin-top: 60px; /* Add more space above the title */
-    text-align: center; /* Center the title */
+.input-group select:hover, .input-group input:hover {
+    border-color: #27003c;
+}
+
+.logo-left,
+.logo-right {
+    position: absolute;
+    top: 0;
+    height: 100px;
+    width: 100px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo-left:hover,
+.logo-right:hover {
+    transform: rotate(-10deg);
+}
+
+.logo-left {
+    left: 10px;
+}
+
+.logo-right {
+    right: 10px;
+    margin-bottom: 30px;
+}
+
+.input-bar:first-of-type {
+    margin-top: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 4px;
+    color: #000000;
+}
+
+.output {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 3px solid #27003c;
+    margin: 10px 0; /* Added space between input and output */
+    background-color: #f6f0f0;
+    color: #000000;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.output:hover {
+    background-color:  #0f6703;
+    transform: scale(1.03);
+    color: #ffffff;
+
+}
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #1a023f;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.popup .popuptext::after {
+    content: "";
+    position: relative;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1a023f transparent transparent transparent;
+}
+
+.popup:hover .popuptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.question-mark {
+    color: rgb(67, 3, 119);
+    cursor: pointer;
+}
+
+h1 {
+    margin-top: 60px;
+    text-align: center;
+    transition: color 0.3s ease-in-out;
+}
+
+h1:hover {
+    color: #0f6703;
+    transform: scale(1.04);
+
+}
+
+button {
+    background-color: #1a023f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: translateY(2px);
+    transform: scale(1.05);
+
+}
+
+button:active {
+    transform: translateY(2px);
+    transform: scale(1.05);
+
 }
 </style>
 </head>
@@ -141,9 +215,44 @@ body {
         h1 {
             margin-top: 100px; /* Add more space above the title */
             text-align: center; /* Center the title */
+            color: rgb(53, 3, 99);
+
         }
-    
-        /* Existing styles */
+        .button-style {
+            display:center block ;
+            width: 100%;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #1a023f;
+        border: none;
+        border-radius: 10px;
+        
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        margin: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .button-style:hover {
+        background-color:  #0f6703;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        transform: translateY(2px);
+        transform: scale(1.03);
+
+    }
+
+    .button-style:active {
+        background-color: #0d011c;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(0);
+        transform: scale(1.03);
+
+    }
+</style>
     </style>
     <h1><center>Solar Pumping system for Irrigation </center></h1>
     <img src="MansouraUniversity-logo.jpg" alt="Left Logo" class="logo-left">
@@ -212,10 +321,13 @@ body {
             
         </select>
     </div>
-   
     <div class="input-group">
-        <label for="landArea">Land Area in ARC:</label>
-        <input type="number" id="landArea" placeholder="Enter land area value" min="0">
+        <label for="inverter" class="popup">Inverter <span class="question-mark">?</span>: <span class="popuptext">string: life time 10 year & don't accept adding unit<br>micro: life time 25 year &  accept adding unit</span></label>
+        <select id="inverter" onchange="calculateSum()">
+           
+            <option value="500">micro </option>
+            <option value="250">string </option>
+        </select>
     </div>
     <div class="input-group">
         <label for="irrigation" class="popup">Irrigation <span class="question-mark">?</span>: <span class="popuptext">Hints for irrigation types:<br>Drip (>2h every day)<br>Sprinkler (>3h 3 time per week)<br>Regulated (>3h 2 time per week)</span></label>
@@ -227,17 +339,15 @@ body {
         </select>
     </div>
     <div class="input-group">
-        <label for="waterDepth"class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Head:Depth of Water in m : if u have spesfication <br> for  the irrigation system friction u can add it to <br>  Head to Well Head </span> </label>
+        <label for="landArea">Land Area in ARC:</label>
+        <input type="number" id="landArea" placeholder="Enter land area value" min="0">
+    </div>
+    
+    <div class="input-group">
+        <label for="waterDepth"class="popup">WaterDepth<span class="question-mark">?</span>: <span class="popuptext">Hints for Head:<br>Depth of Water in m <br> if u have spesfication  <br> for  the irrigation system Friction head u can add it to <br>    Well Head </span> </label>
         <input type="number" id="waterDepth" placeholder="Enter water depth value" min="0">
     </div>
-    <div class="input-group">
-        <label for="inverter" class="popup">Inverter <span class="question-mark">?</span>: <span class="popuptext">string: life time 10 year & don't accept adding unit<br>micro: life time 25 year &  accept adding unit</span></label>
-        <select id="inverter" onchange="calculateSum()">
-           
-            <option value="500">micro </option>
-            <option value="250">string </option>
-        </select>
-    </div>
+  
     <div class="input-group">
         <label for="workers">Workers:</label>
         <input type="number" id="workers" placeholder="Enter workers value" min="0">
@@ -250,7 +360,7 @@ body {
      <div class="output" id="pumpHP">PumpHP:0 hp </div>
      <div class="output" id="flowrate">Flow rate:0 m&sup3/hr </div> 
             </div>
-    <button onclick="generateExcel()">Generate Excel</button>
+    <button class="button-style" onclick="generateExcel()">Generate Excel</button>
 
 </div>
 <footer>
