@@ -152,22 +152,26 @@ body {
         <label for="crop">Crop:</label>
         <select id="crop" onchange="updateCropValue()">
             <option value="0">None</option>
-            <option value="250">Date</option>
-            <option value="700">Potato</option>
-            <option value="1500">Tomato</option>
-            <option value="516.285">Wheat</option>
-            <option value="526.155">Barley</option>
-            <option value="558.6">Onion</option>
-            <option value="415.59">Clover</option>
-            <option value="993.5">Watermelon</option>
-            <option value="664.545">Okra</option>
+            <option value="350">Date</option>
+            <option value="495">Potato</option>
+            <option value="450">strawberry</option> 
+           <option value="525">Sesame</option>     
+            <option value="600">Tomato</option>
+            <option value="480">Wheat</option>
+            <option value="470">Barley</option>
+            <option value="560">Onion</option>
+            <option value="460">Clover</option>
+            <option value="485">Garlic</option>
+            <option value="470">Corn</option>     
+           <option value="380">SunFlower</option>     
+           <option value="380">Vegetables</option>     
             <option value="900">Other</option>
         </select>
     </div>
     <div class="input-group">
         <label for="Main_three_region">Main_three_region:</label>
         <select id="Main_three_region" onchange="calculateSum()">
-            <option value="1">Delta</option>
+            <option value="1">Delta&Lower-Egypt</option>
             <option value="1.05">Middle-Egypt</option>
             <option value="1.2">Upper-Egypt</option>
       
@@ -176,7 +180,7 @@ body {
     <div class="input-group">
         <label for="region">Region:</label>
         <select id="region" onchange="calculateSum()">
-            <option value="0">Select Region</option>
+            <option value="25">Select Region</option>
             <option value="23.6964">Al-Arish</option>
             <option value="23.0175">Port-Said</option>
             <option value="22.4688">Al-Beheira</option>
@@ -201,10 +205,10 @@ body {
        
         <label for="paneltype" class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Panel types:<br>(Amorphous silicon) Cheapest & Efficiency 5-7% <br>(Polycrystalline silicon) Cheaper than mono & Efficiency   15-17% <br>(Monocrystalline silicon) Most expensive & Efficiency 15-22% </span></label>
         <select id="paneltype" onchange="calculateSum()">
-            <option value="120">Select Panel type</option>
-            <option value="50">Amorphous silicon</option>
-            <option value="170">Polycrystalline silicon</option>
-            <option value="300">Monocrystalline silicon</option>
+            <option value="140">Select Panel type</option>
+            <option value="150">Amorphous silicon</option>
+            <option value="350">Polycrystalline silicon</option>
+            <option value="650">Monocrystalline silicon</option>
             
         </select>
     </div>
@@ -214,32 +218,30 @@ body {
         <input type="number" id="landArea" placeholder="Enter land area value" min="0">
     </div>
     <div class="input-group">
-        <label for="irrigation" class="popup">Irrigation <span class="question-mark">?</span>: <span class="popuptext">Hints for irrigation types:<br>Drip (>24h)<br>Sprinkler (>8h)<br>Regulated (>3h)</span></label>
+        <label for="irrigation" class="popup">Irrigation <span class="question-mark">?</span>: <span class="popuptext">Hints for irrigation types:<br>Drip (>2h every day)<br>Sprinkler (>3h 3 time per week)<br>Regulated (>3h 2 time per week)</span></label>
         <select id="irrigation" onchange="calculateSum()">
             <option value="0">None</option>
-            <option value="86400">Drip (>24h)</option>
-            <option value="28800">Sprinkler (>8h)</option>
-            <option value="10800">Regulated (>3h)</option>
+            <option value="86400">Drip </option>
+            <option value="28800">Sprinkler</option>
+            <option value="10800">Regulated</option>
         </select>
     </div>
     <div class="input-group">
-        <label for="waterDepth">Depth of Water in m:</label>
+        <label for="waterDepth"class="popup">Select Panel type <span class="question-mark">?</span>: <span class="popuptext">Hints for Head:Depth of Water in m : if u have spesfication <br> for  the irrigation system friction u can add it to <br>  Head to Well Head </span> </label>
         <input type="number" id="waterDepth" placeholder="Enter water depth value" min="0">
     </div>
     <div class="input-group">
         <label for="inverter" class="popup">Inverter <span class="question-mark">?</span>: <span class="popuptext">string: life time 10 year & don't accept adding unit<br>micro: life time 25 year &  accept adding unit</span></label>
         <select id="inverter" onchange="calculateSum()">
            
-            <option value="600">micro </option>
-            <option value="180">string </option>
+            <option value="500">micro </option>
+            <option value="250">string </option>
         </select>
     </div>
     <div class="input-group">
         <label for="workers">Workers:</label>
         <input type="number" id="workers" placeholder="Enter workers value" min="0">
-    </div>
-    <button onclick="generateExcel()">Generate Excel</button>
-
+    
     <div class="output" id="outputPower">Total Power: 0 kWh/month</div>
     <div class="output" id="outputPanels">Panels: 0</div>
     <div class="output" id="outputCost">Cost: 0 $</div>
@@ -247,6 +249,9 @@ body {
      <div class="output" id="battery">Battery:0</div>
      <div class="output" id="pumpHP">PumpHP:0 hp </div>
      <div class="output" id="flowrate">Flow rate:0 m&sup3/hr </div> 
+            </div>
+    <button onclick="generateExcel()">Generate Excel</button>
+
 </div>
 <footer>
     <p>&copy; Solar Pumping system for Irrigation </p>
@@ -294,35 +299,52 @@ body {
         var flowrate =0;
         var PumpHP =0;
        var cropValue= Main_three_region*cropValue
+            // change in domestic due to worker number
+            if ( workers === 1) {
+
+            var workerpower = workers * 150;
+           }
+            else if ( workers === 2) {
+
+            var workerpower = workers * 100;
+           }     
+                 else {
+
+            var workerpower = workers * 80;
+           }
 
         if (irrigationValue === 0) {
-            var totalPower = workers * 70;
-        } else if (irrigationValue === 86400) {
-            irrigationValue=irrigationValue*4;
+        
+
+            var totalPower = workerpower ;
+           }
+        
+        else if (irrigationValue === 86400) {
+            irrigationValue=2*30*3600;
             cropValue=cropValue*1;
 
             var flowrate = (cropValue / irrigationValue ) * landArea;
-            var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
+            var pumpPower = 9.8 * flowrate * (waterDepth/.95)/.8 ;
             var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+            var totalPower = parseInt(pump_kwat_hour + workerpower);
         }
      else if (irrigationValue === 28800) {
-        irrigationValue=irrigationValue*4;
+        irrigationValue=12*4*3600;
         cropValue=cropValue*1.4;
 
             var flowrate = (cropValue / irrigationValue ) * landArea;
-            var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
+            var pumpPower = 9.8 * flowrate * (waterDepth/.9)/.8 ;
             var pump_kwat_hour = pumpPower *(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers*70 );
+            var totalPower = parseInt(pump_kwat_hour + workerpower );
         }
     else   {
-        irrigationValue=irrigationValue*4;
+        irrigationValue=8*3600*4;
         cropValue=cropValue*1.8;
 
             var flowrate = (cropValue / irrigationValue) * landArea;
             var pumpPower = 9.8 * flowrate * waterDepth/.8 ;
             var pump_kwat_hour = pumpPower*(irrigationValue/3600) ;
-            var totalPower = parseInt(pump_kwat_hour + workers * 70);
+            var totalPower = parseInt(pump_kwat_hour + workerpower);
         }
 var pumpHP=pumpPower/.745 ;
 
@@ -337,39 +359,46 @@ var pumpHP=pumpPower/.745 ;
         } else {
             document.getElementById('latitudeInput').style.display = 'none';
             document.getElementById('longitudeInput').style.display = 'none';
-            var panels = parseInt(totalPower / (sun *1* 3));
+            var panels = parseInt(totalPower / (sun *1* 2.5));
         }
 
-       
-        var battery = parseInt(totalPower / 150);
+              
+   var battery = (totalPower / 140);
+      
+
         // var inverter_cost = parseInt(battery / 2) * 80;
-        var batteryCost = parseInt(battery * 400);
-        if (paneltype===50){
+        var batteryCost = parseInt(battery * 450);
+        if (paneltype===140){
             panels = parseInt(panels/1.05)
         }
-        else if (paneltype===120){
+        else if (paneltype===150){
             panels = parseInt(panels/1.05)
             }
-        else if (paneltype===170){
+        else if (paneltype===350){
             panels = parseInt(panels/1.15)
 
         }
-        else if (paneltype===300){
+        else if (paneltype===650){
             panels = parseInt(panels/1.25)
 
         }
-        var instlationCost = parseInt(panels * 100);
+        var panels = panels+1
+            if (totalPower===0){
+           var panels = 0
+            }
+        
+        var instlationCost = parseInt(panels * 180);
 
         var projectedArea = panels *4*.8 ;
 
         if (selectedinverter === "micro")
         {
-            var inverter_cost=panels*inverter;
+            var inverter_cost=panels*inverter*1.1;
         }else {
-            var inverter_cost=totalPower*inverter/30;
+            var inverter_cost=panels*inverter*1.1;
         }
 
-        var cost = parseInt((panels * paneltype ) + batteryCost + inverter_cost + instlationCost );
+        var cost = parseInt(((panels * paneltype ) + batteryCost + inverter_cost + instlationCost ));
 
         document.getElementById('outputPower').textContent = "Total Power: " + parseInt(totalPower) + " kWh/month  ";
         document.getElementById('outputCost').textContent = "Cost:  " + parseInt(cost)+" $";
@@ -381,11 +410,12 @@ var pumpHP=pumpPower/.745 ;
          document.getElementById('flowrate').textContent = "Flow rate: " + parseInt(flowrate*3600)  +" ㎥/hr "; 
 
         
-    }
+    
 
     function updateCropValue() {
         calculateSum();
     }
+} 
 
     function showHint() {
         alert("Hints for irrigation types:\nDrip (>24h)\nSprinkler (>8h)\nRegulated (>3h)");
@@ -400,6 +430,7 @@ var pumpHP=pumpPower/.745 ;
     document.getElementById('latitude').addEventListener('input', calculateSum);
     document.getElementById('longitude').addEventListener('input', calculateSum);
     document.getElementById('inverter').addEventListener('input', calculateSum);
+
     function generateExcel() {
     const wb = XLSX.utils.book_new();
     const wsData = [
