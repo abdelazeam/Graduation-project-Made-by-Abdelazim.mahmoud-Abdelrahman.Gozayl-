@@ -462,9 +462,10 @@
             if (selectedRegion === "Other") {
                 document.getElementById('latitudeInput').style.display = 'block';
                 document.getElementById('longitudeInput').style.display = 'block';
-                var Long_Effect = (longitude/180)+1 ; 
+                var Long_Effect = (longitude/32.8) ; 
+                var lat_effect  = (latitude/40) ; 
 
-                var panels = parseInt(totalPower / ((Ht *45* Long_Effect* 3)/(latitude))) ;
+                var panels = parseInt((totalPower / ((Ht *1.1*3)))*(lat_effect*Long_Effect)) ;
             
 
             } else {
