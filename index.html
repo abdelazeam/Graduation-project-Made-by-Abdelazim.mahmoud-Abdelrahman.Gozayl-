@@ -462,8 +462,9 @@
             if (selectedRegion === "Other") {
                 document.getElementById('latitudeInput').style.display = 'block';
                 document.getElementById('longitudeInput').style.display = 'block';
+                var Long_Effect = (longitude/180)+1 ; 
 
-                var panels = parseInt(totalPower / ((Ht *1420 * 3)/(latitude*longitude))) ;
+                var panels = parseInt(totalPower / ((Ht *45* Long_Effect* 3)/(latitude))) ;
             
 
             } else {
@@ -499,7 +500,7 @@
             
             var instlationCost = parseInt(panels * 180);
 
-            var projectedArea = panels *4*.8 ;
+            var projectedArea = panels *4*1.4*  Math.cos(latitude * 0.0174) ;
 
             if (selectedinverter === "micro")
             {
